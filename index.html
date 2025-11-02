@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>78é•¿åº¦æŸ¥è¯¢å™¨</title>
+    <title>78³¤¶È²éÑ¯Æ÷</title>
     <style>
         * {
             margin: 0;
@@ -33,10 +33,16 @@
         
         h1 {
             color: #1e3c72;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 32px;
             font-weight: 700;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .author-info {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
         }
         
         .input-group {
@@ -135,7 +141,12 @@
             line-height: 1.4;
         }
         
-        .special-evaluation {
+        .special-evaluation-orange {
+            color: #ff8c00;
+            font-weight: 600;
+        }
+        
+        .special-evaluation-red {
             color: #ff4757;
             font-weight: 600;
         }
@@ -161,22 +172,23 @@
 </head>
 <body>
     <div class="container">
-        <h1>78é•¿åº¦æŸ¥è¯¢å™¨</h1>
+        <h1>78³¤¶È²éÑ¯Æ÷</h1>
+        <div class="author-info">×÷Õß£ºYc_Shadust  QQ£º3610019833/3270707617</div>
         
         <div class="input-group">
-            <label for="username">è¯·è¾“å…¥ç”¨æˆ·åï¼ˆå¯åŒ…å«ä»»ä½•ASCIIå­—ç¬¦ï¼‰</label>
-            <input type="text" id="username" placeholder="ä¾‹å¦‚: Abc123!@#">
+            <label for="username">ÇëÊäÈëÓÃ»§Ãû£¨¿É°üº¬ÈÎºÎASCII×Ö·û£©</label>
+            <input type="text" id="username" placeholder="ÀıÈç: Abc123!@#">
         </div>
         
-        <button class="calculate-btn" id="calculate-btn">è®¡ç®—78é•¿åº¦</button>
+        <button class="calculate-btn" id="calculate-btn">¼ÆËã78³¤¶È</button>
         
         <div class="result-container">
-            <div class="result-label">78é•¿åº¦</div>
+            <div class="result-label">78³¤¶È</div>
             <div class="result-value" id="result-value">-</div>
         </div>
         
         <div class="evaluation-container">
-            <div class="evaluation-text" id="evaluation-text">è¯·è¾“å…¥ç”¨æˆ·åå¹¶ç‚¹å‡»è®¡ç®—</div>
+            <div class="evaluation-text" id="evaluation-text">ÇëÊäÈëÓÃ»§Ãû²¢µã»÷¼ÆËã</div>
         </div>
     </div>
 
@@ -187,86 +199,98 @@
             const resultValue = document.getElementById('result-value');
             const evaluationText = document.getElementById('evaluation-text');
             
-            // ç‰¹æ®Šç”¨æˆ·ååˆ—è¡¨ï¼ˆä¸åŒºåˆ†å¤§å°å†™ï¼‰
-            const specialUsernames = {
-                'wxc': 'ä¸€çœ‹å°±æ˜¯éŸ³æ¸¸å¤§é¾™æ¯”ã€‚',
-                'ceq': 'ä¸€çœ‹å°±æ˜¯éŸ³æ¸¸å¤§é¾™æ¯”ã€‚',
-                'yyw': 'ä¸€çœ‹å°±æ˜¯éŸ³æ¸¸å¤§é¾™æ¯”ã€‚',
-                'wyc': 'ä½œè€…çš„æƒå¨ä¸å¾—ä¾µçŠ¯ã€‚'
-            };
-            
-            // è®¡ç®—æŒ‰é’®ç‚¹å‡»äº‹ä»¶
+            // ¼ÆËã°´Å¥µã»÷ÊÂ¼ş
             calculateBtn.addEventListener('click', function() {
                 const username = usernameInput.value.trim();
                 
-                // éªŒè¯è¾“å…¥
+                // ÑéÖ¤ÊäÈë
                 if (username === '') {
                     resultValue.textContent = '-';
-                    evaluationText.textContent = 'è¯·è¾“å…¥ç”¨æˆ·å';
+                    evaluationText.textContent = 'ÇëÊäÈëÓÃ»§Ãû';
                     evaluationText.className = 'evaluation-text';
                     return;
                 }
                 
-                // æ£€æŸ¥æ˜¯å¦ä¸ºç‰¹æ®Šç”¨æˆ·å
+                // ¼ì²éÊÇ·ñÎªÌØÊâÓÃ»§Ãû
                 const lowerUsername = username.toLowerCase();
                 let specialEvaluation = '';
+                let specialUnit = 'cm';
                 
-                for (const specialName in specialUsernames) {
-                    if (lowerUsername === specialName.toLowerCase()) {
-                        specialEvaluation = specialUsernames[specialName];
-                        break;
-                    }
+                // ÌØÊâÓÃ»§Ãû¼ì²é
+                if (lowerUsername === 'wyc') {
+                    resultValue.textContent = '-';
+                    evaluationText.textContent = '×÷ÕßµÄÈ¨Íş²»µÃÇÖ·¸£¡Äã²»ÅäÖªµÀËû78µÄ³¤¶È¡£';
+                    evaluationText.className = 'evaluation-text special-evaluation-red';
+                    return;
                 }
                 
-                // è®¡ç®—å„éƒ¨åˆ†ASCIIç ä¹‹å’Œ
-                let m = 0; // å¤§å†™å­—æ¯ASCIIç ä¹‹å’Œ
-                let n = 0; // å°å†™å­—æ¯ASCIIç ä¹‹å’Œ
-                let t = 0; // éå­—æ¯å­—ç¬¦ASCIIç ä¹‹å’Œ
+                if (['wxc', 'ceq', 'yyw'].includes(lowerUsername)) {
+                    specialEvaluation = 'Ò»¿´¾ÍÊÇÒôÓÎ´óÁú±È¡£';
+                    evaluationText.className = 'evaluation-text special-evaluation-orange';
+                }
+                
+                // SGWYÌØÊâ´¦Àí
+                if (lowerUsername === 'sgwy') {
+                    resultValue.textContent = '78 km';
+                    evaluationText.textContent = 'ºÃ³¤¡£';
+                    evaluationText.className = 'evaluation-text special-evaluation-orange';
+                    return;
+                }
+                
+                // ¼ÆËã¸÷²¿·ÖASCIIÂëÖ®ºÍ
+                let m = 0; // ´óĞ´×ÖÄ¸ASCIIÂëÖ®ºÍ
+                let n = 0; // Ğ¡Ğ´×ÖÄ¸ASCIIÂëÖ®ºÍ
+                let t = 0; // ·Ç×ÖÄ¸×Ö·ûASCIIÂëÖ®ºÍ
                 
                 for (let i = 0; i < username.length; i++) {
                     const charCode = username.charCodeAt(i);
                     
                     if (charCode >= 65 && charCode <= 90) {
-                        // å¤§å†™å­—æ¯
+                        // ´óĞ´×ÖÄ¸
                         m += charCode;
                     } else if (charCode >= 97 && charCode <= 122) {
-                        // å°å†™å­—æ¯
+                        // Ğ¡Ğ´×ÖÄ¸
                         n += charCode;
                     } else {
-                        // éå­—æ¯å­—ç¬¦
+                        // ·Ç×ÖÄ¸×Ö·û
                         t += charCode;
                     }
                 }
                 
-                // åº”ç”¨å…¬å¼è®¡ç®—
-                const p = (m * 78 / 91) - (n * 91 / 78) - (13 * t);
+                // Ó¦ÓÃ¹«Ê½¼ÆËã
+                let p = (m * 78 / 91) - (n * 91 / 78) - (13 * t);
                 
-                // æ˜¾ç¤ºç»“æœ
-                resultValue.textContent = p.toFixed(2);
+                // Èç¹ûp³¬³ö·¶Î§£¬ÔòÒ»Ö±³ıÒÔ2Ö±µ½ÔÚ·¶Î§ÄÚ
+                while (p > 200 || p < -100) {
+                    p = p / 2;
+                }
                 
-                // æ˜¾ç¤ºè¯„ä»·
+                // ±£ÁôÒ»Î»Ğ¡Êı
+                p = Math.round(p * 10) / 10;
+                
+                // ÏÔÊ¾½á¹û
+                resultValue.textContent = p + ' ' + specialUnit;
+                
+                // ÏÔÊ¾ÆÀ¼Û
                 if (specialEvaluation) {
                     evaluationText.textContent = specialEvaluation;
-                    evaluationText.className = 'evaluation-text special-evaluation';
                 } else {
                     let evaluation = '';
                     
-                    if (p > 1000) {
-                        evaluation = "111æ‚¨  ç†  è®º  äº†111";
-                    } else if (p > 100) {
-                        evaluation = "wcä»€ä¹ˆ78è¿™ä¹ˆé•¿ï¼Ÿï¼å¥½å¼ºå“‡ï¼";
+                    if (p > 100) {
+                        evaluation = "wcÊ²Ã´78ÕâÃ´³¤£¿£¡ºÃÇ¿ÍÛ£¡";
                     } else if (p > 20) {
-                        evaluation = "å‘œâ€¦â€¦å‘œâ€¦â€¦å¥½é•¿â€¦â€¦å•Šâ€¦â€¦å˜¶~";
+                        evaluation = "ÎØ¡­¡­ÎØ¡­¡­ºÃ³¤¡­¡­°¡¡­¡­Ë»~";
                     } else if (p > 10) {
-                        evaluation = "è¿™å°±æ˜¯ä½ çš„78å—ï¼Ÿåˆ°åº•æœ‰å¤šå¼ºï¼ï¼Ÿ";
+                        evaluation = "Õâ¾ÍÊÇÄãµÄ78Âğ£¿µ½µ×ÓĞ¶àÇ¿£¡£¿";
                     } else if (p > 5) {
-                        evaluation = "è¿™æ€ä¹ˆæ˜¯78ï¼Œå¤ªå°äº†ã€‚";
+                        evaluation = "ÕâÔõÃ´ÊÇ78£¬Ì«Ğ¡ÁË¡£";
                     } else if (p > 0) {
-                        evaluation = "78éƒ½å¿«çœ‹ä¸è§äº†ï¼Œèµ¶ç´§æ‰¾ä¸ªä¸œè¥¿æ‰£å‡ºæ¥å§ã€‚";
+                        evaluation = "78¶¼¿ì¿´²»¼ûÁË£¬¸Ï½ôÕÒ¸ö¶«Î÷¿Û³öÀ´°É¡£";
                     } else if (p > -20) {
-                        evaluation = "ä½  7 8 æ²¡ äº† ã€‚";
+                        evaluation = "Äã 7 8 Ã» ÁË ¡£";
                     } else {
-                        evaluation = "000æ‚¨  ç†  è®º  äº†000";
+                        evaluation = "Äú  Àí  ÂÛ  ÁË";
                     }
                     
                     evaluationText.textContent = evaluation;
@@ -274,7 +298,7 @@
                 }
             });
             
-            // æŒ‰Enteré”®ä¹Ÿå¯ä»¥è§¦å‘è®¡ç®—
+            // °´Enter¼üÒ²¿ÉÒÔ´¥·¢¼ÆËã
             usernameInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     calculateBtn.click();

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>78长度查询器</title>
+    <title>78 Length Query Tool</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -172,23 +172,23 @@
 </head>
 <body>
     <div class="container">
-        <h1>78长度查询器</h1>
-        <div class="author-info">作者：Yc_Shadust  QQ：3610019833/3270707617</div>
+        <h1>78 Length Query Tool</h1>
+        <div class="author-info">Author: Yc_Shadust  QQ: 3610019833/3270707617</div>
         
         <div class="input-group">
-            <label for="username">请输入用户名（可包含任何ASCII字符）</label>
-            <input type="text" id="username" placeholder="例如: Abc123!@#">
+            <label for="username">Enter username (can contain any ASCII characters)</label>
+            <input type="text" id="username" placeholder="Example: Abc123!@#">
         </div>
         
-        <button class="calculate-btn" id="calculate-btn">计算78长度</button>
+        <button class="calculate-btn" id="calculate-btn">Calculate 78 Length</button>
         
         <div class="result-container">
-            <div class="result-label">78长度</div>
+            <div class="result-label">78 Length</div>
             <div class="result-value" id="result-value">-</div>
         </div>
         
         <div class="evaluation-container">
-            <div class="evaluation-text" id="evaluation-text">请输入用户名并点击计算</div>
+            <div class="evaluation-text" id="evaluation-text">Please enter username and click calculate</div>
         </div>
     </div>
 
@@ -199,98 +199,98 @@
             const resultValue = document.getElementById('result-value');
             const evaluationText = document.getElementById('evaluation-text');
             
-            // 计算按钮点击事件
+            // Calculate button click event
             calculateBtn.addEventListener('click', function() {
                 const username = usernameInput.value.trim();
                 
-                // 验证输入
+                // Validate input
                 if (username === '') {
                     resultValue.textContent = '-';
-                    evaluationText.textContent = '请输入用户名';
+                    evaluationText.textContent = 'Please enter username';
                     evaluationText.className = 'evaluation-text';
                     return;
                 }
                 
-                // 检查是否为特殊用户名
+                // Check for special usernames
                 const lowerUsername = username.toLowerCase();
                 let specialEvaluation = '';
                 let specialUnit = 'cm';
                 
-                // 特殊用户名检查
+                // Special username check
                 if (lowerUsername === 'wyc') {
                     resultValue.textContent = '-';
-                    evaluationText.textContent = '作者的权威不得侵犯！你不配知道他78的长度。';
+                    evaluationText.textContent = 'Author authority cannot be violated! You are not worthy of knowing his 78 length.';
                     evaluationText.className = 'evaluation-text special-evaluation-red';
                     return;
                 }
                 
                 if (['wxc', 'ceq', 'yyw'].includes(lowerUsername)) {
-                    specialEvaluation = '一看就是音游大龙比。';
+                    specialEvaluation = 'Looks like a rhythm game master.';
                     evaluationText.className = 'evaluation-text special-evaluation-orange';
                 }
                 
-                // SGWY特殊处理
+                // SGWY special treatment
                 if (lowerUsername === 'sgwy') {
                     resultValue.textContent = '78 km';
-                    evaluationText.textContent = '好长。';
+                    evaluationText.textContent = 'So long.';
                     evaluationText.className = 'evaluation-text special-evaluation-orange';
                     return;
                 }
                 
-                // 计算各部分ASCII码之和
-                let m = 0; // 大写字母ASCII码之和
-                let n = 0; // 小写字母ASCII码之和
-                let t = 0; // 非字母字符ASCII码之和
+                // Calculate ASCII sums for different character types
+                let m = 0; // Sum of uppercase ASCII codes
+                let n = 0; // Sum of lowercase ASCII codes
+                let t = 0; // Sum of non-letter ASCII codes
                 
                 for (let i = 0; i < username.length; i++) {
                     const charCode = username.charCodeAt(i);
                     
                     if (charCode >= 65 && charCode <= 90) {
-                        // 大写字母
+                        // Uppercase letters
                         m += charCode;
                     } else if (charCode >= 97 && charCode <= 122) {
-                        // 小写字母
+                        // Lowercase letters
                         n += charCode;
                     } else {
-                        // 非字母字符
+                        // Non-letter characters
                         t += charCode;
                     }
                 }
                 
-                // 应用公式计算
+                // Apply formula calculation
                 let p = (m * 78 / 91) - (n * 91 / 78) - (13 * t);
                 
-                // 如果p超出范围，则一直除以2直到在范围内
+                // If p is out of range, keep dividing by 2 until within range
                 while (p > 200 || p < -100) {
                     p = p / 2;
                 }
                 
-                // 保留一位小数
+                // Keep one decimal place
                 p = Math.round(p * 10) / 10;
                 
-                // 显示结果
+                // Display result
                 resultValue.textContent = p + ' ' + specialUnit;
                 
-                // 显示评价
+                // Display evaluation
                 if (specialEvaluation) {
                     evaluationText.textContent = specialEvaluation;
                 } else {
                     let evaluation = '';
                     
                     if (p > 100) {
-                        evaluation = "wc什么78这么长？！好强哇！";
+                        evaluation = "Wow, what kind of 78 is this long?! So strong!";
                     } else if (p > 20) {
-                        evaluation = "呜……呜……好长……啊……嘶~";
+                        evaluation = "Oh... oh... so long... ah... hiss~";
                     } else if (p > 10) {
-                        evaluation = "这就是你的78吗？到底有多强！？";
+                        evaluation = "Is this your 78? How strong is it!?";
                     } else if (p > 5) {
-                        evaluation = "这怎么是78，太小了。";
+                        evaluation = "How is this 78, it's too small.";
                     } else if (p > 0) {
-                        evaluation = "78都快看不见了，赶紧找个东西扣出来吧。";
+                        evaluation = "78 is almost invisible, quickly find something to dig it out.";
                     } else if (p > -20) {
-                        evaluation = "你 7 8 没 了 。";
+                        evaluation = "Your 7 8 is gone.";
                     } else {
-                        evaluation = "您  理  论  了";
+                        evaluation = "You have theorized";
                     }
                     
                     evaluationText.textContent = evaluation;
@@ -298,7 +298,7 @@
                 }
             });
             
-            // 按Enter键也可以触发计算
+            // Press Enter to trigger calculation
             usernameInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     calculateBtn.click();

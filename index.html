@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>78长度查询器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .input-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2a5298;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #c5d4f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        input:focus {
+            border-color: #4a7dff;
+            box-shadow: 0 0 0 3px rgba(74, 125, 255, 0.2);
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(to right, #4a7dff, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(42, 82, 152, 0.3);
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(42, 82, 152, 0.4);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            background-color: #f0f5ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid #d0ddf7;
+            margin-bottom: 20px;
+        }
+        
+        .result-label {
+            color: #2a5298;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .result-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1e3c72;
+            word-break: break-all;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .evaluation-container {
+            background-color: #f8fbff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #d0ddf7;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .evaluation-text {
+            font-size: 18px;
+            color: #1e3c72;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .special-evaluation {
+            color: #ff4757;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .result-value {
+                font-size: 36px;
+            }
+            
+            .evaluation-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>78长度查询器</h1>
+        
+        <div class="input-group">
+            <label for="username">请输入用户名（可包含任何ASCII字符）</label>
+            <input type="text" id="username" placeholder="例如: Abc123!@#">
+        </div>
+        
+        <button class="calculate-btn" id="calculate-btn">计算78长度</button>
+        
+        <div class="result-container">
+            <div class="result-label">78长度</div>
+            <div class="result-value" id="result-value">-</div>
+        </div>
+        
+        <div class="evaluation-container">
+            <div class="evaluation-text" id="evaluation-text">请输入用户名并点击计算</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameInput = document.getElementById('username');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultValue = document.getElementById('result-value');
+            const evaluationText = document.getElementById('evaluation-text');
+            
+            // 特殊用户名列表（不区分大小写）
+            const specialUsernames = {
+                'wxc': '一看就是音游大龙比。',
+                'ceq': '一看就是音游大龙比。',
+                'yyw': '一看就是音游大龙比。',
+                'wyc': '作者的权威不得侵犯。'
+            };
+            
+            // 计算按钮点击事件
+            calculateBtn.addEventListener('click', function() {
+                const username = usernameInput.value.trim();
+                
+                // 验证输入
+                if (username === '') {
+                    resultValue.textContent = '-';
+                    evaluationText.textContent = '请输入用户名';
+                    evaluationText.className = 'evaluation-text';
+                    return;
+                }
+                
+                // 检查是否为特殊用户名
+                const lowerUsername = username.toLowerCase();
+                let specialEvaluation = '';
+                
+                for (const specialName in specialUsernames) {
+                    if (lowerUsername === specialName.toLowerCase()) {
+                        specialEvaluation = specialUsernames[specialName];
+                        break;
+                    }
+                }
+                
+                // 计算各部分ASCII码之和
+                let m = 0; // 大写字母ASCII码之和
+                let n = 0; // 小写字母ASCII码之和
+                let t = 0; // 非字母字符ASCII码之和
+                
+                for (let i = 0; i < username.length; i++) {
+                    const charCode = username.charCodeAt(i);
+                    
+                    if (charCode >= 65 && charCode <= 90) {
+                        // 大写字母
+                        m += charCode;
+                    } else if (charCode >= 97 && charCode <= 122) {
+                        // 小写字母
+                        n += charCode;
+                    } else {
+                        // 非字母字符
+                        t += charCode;
+                    }
+                }
+                
+                // 应用公式计算
+                const p = (m * 78 / 91) - (n * 91 / 78) - (13 * t);
+                
+                // 显示结果
+                resultValue.textContent = p.toFixed(2);
+                
+                // 显示评价
+                if (specialEvaluation) {
+                    evaluationText.textContent = specialEvaluation;
+                    evaluationText.className = 'evaluation-text special-evaluation';
+                } else {
+                    let evaluation = '';
+                    
+                    if (p > 1000) {
+                        evaluation = "111您  理  论  了111";
+                    } else if (p > 100) {
+                        evaluation = "wc什么78这么长？！好强哇！";
+                    } else if (p > 20) {
+                        evaluation = "呜……呜……好长……啊……嘶~";
+                    } else if (p > 10) {
+                        evaluation = "这就是你的78吗？到底有多强！？";
+                    } else if (p > 5) {
+                        evaluation = "这怎么是78，太小了。";
+                    } else if (p > 0) {
+                        evaluation = "78都快看不见了，赶紧找个东西扣出来吧。";
+                    } else if (p > -20) {
+                        evaluation = "你 7 8 没 了 。";
+                    } else {
+                        evaluation = "000您  理  论  了000";
+                    }
+                    
+                    evaluationText.textContent = evaluation;
+                    evaluationText.className = 'evaluation-text';
+                }
+            });
+            
+            // 按Enter键也可以触发计算
+            usernameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

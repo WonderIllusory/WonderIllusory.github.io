@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>浅蓝色主题网页</title>
+    <title>Yc_Shadust's Homepage</title>
     <style>
         * {
             margin: 0;
@@ -13,114 +13,115 @@
         }
         
         body {
-            background: linear-gradient(135deg, #e0f7ff 0%, #b3e0ff 100%);
+            background: linear-gradient(135deg, #0a1f3a 0%, #1a3a5f 100%);
             min-height: 100vh;
-            color: #0066cc;
-            padding: 20px;
+            color: white;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 20px;
         }
         
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
+            text-align: center;
+            margin-bottom: 50px;
+            width: 100%;
         }
         
-        .logo {
-            font-size: 24px;
+        .title {
+            font-size: 3.5rem;
             font-weight: bold;
-            color: #0066cc;
+            color: white;
+            text-shadow: 0 0 15px rgba(77, 166, 255, 0.7);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a3d0ff;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content-box {
+            background-color: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(77, 166, 255, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .box-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
         }
         
         .nav-button {
-            background-color: #4da6ff;
+            background: linear-gradient(135deg, #4da6ff 0%, #0066cc 100%);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-size: 16px;
+            padding: 18px 36px;
+            border-radius: 50px;
+            font-size: 1.3rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 102, 204, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 102, 204, 0.4);
+            margin: 30px 0;
+            width: 80%;
+            max-width: 280px;
         }
         
         .nav-button:hover {
-            background-color: #3399ff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 102, 204, 0.3);
-        }
-        
-        .main-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #0066cc;
-            text-shadow: 2px 2px 4px rgba(0, 102, 204, 0.1);
-        }
-        
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 600px;
-        }
-        
-        .features {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 40px;
-            gap: 20px;
-        }
-        
-        .feature-card {
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            padding: 20px;
-            width: 200px;
-            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 102, 204, 0.5);
+            background: linear-gradient(135deg, #5db0ff 0%, #0077e6 100%);
         }
         
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
+        .nav-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 102, 204, 0.4);
         }
         
-        .feature-title {
-            font-weight: bold;
-            margin-bottom: 10px;
+        .box-text {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
         
         .footer {
-            text-align: center;
             margin-top: 50px;
-            padding: 20px;
-            color: #3399ff;
-            font-size: 14px;
+            text-align: center;
+            color: #a3d0ff;
+            font-size: 0.9rem;
         }
         
         .decorative-element {
             position: absolute;
-            width: 200px;
-            height: 200px;
             border-radius: 50%;
             background: rgba(77, 166, 255, 0.1);
             z-index: -1;
@@ -140,19 +141,25 @@
             height: 250px;
         }
         
+        .decorative-element:nth-child(3) {
+            top: 20%;
+            right: 15%;
+            width: 100px;
+            height: 100px;
+        }
+        
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 20px;
+            .title {
+                font-size: 2.5rem;
             }
             
-            h1 {
-                font-size: 36px;
+            .content-box {
+                padding: 40px 20px;
             }
             
-            .features {
-                flex-direction: column;
-                align-items: center;
+            .nav-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -161,40 +168,26 @@
     <!-- 装饰元素 -->
     <div class="decorative-element"></div>
     <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
     
     <!-- 头部区域 -->
     <div class="header">
-        <div class="logo">浅蓝主题</div>
-        <button class="nav-button" onclick="window.location.href='78.html'">78 length</button>
+        <h1 class="title">Yc_Shadust's Homepage</h1>
+        <p class="subtitle">Welcome to my personal space on the web</p>
     </div>
     
     <!-- 主要内容区域 -->
-    <div class="main-content">
-        <h1>欢迎来到浅蓝色世界</h1>
-        <p>这是一个以浅蓝色为主题的网页，点击左上方的"78 length"按钮可以跳转到78.html页面。浅蓝色象征着宁静、清新与广阔，希望这个设计能给您带来愉悦的体验。</p>
-        
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🌊</div>
-                <div class="feature-title">宁静设计</div>
-                <div>浅蓝色调带来平静与安宁</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <div class="feature-title">快速响应</div>
-                <div>页面加载迅速，交互流畅</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <div class="feature-title">响应式布局</div>
-                <div>在各种设备上完美显示</div>
-            </div>
+    <div class="content-box">
+        <div class="box-content">
+            <p class="box-text">Click the button below to explore the content</p>
+            <button class="nav-button" onclick="window.location.href='78.html'">78 length</button>
+            <p class="box-text">A journey into the digital realm</p>
         </div>
     </div>
     
     <!-- 页脚 -->
     <div class="footer">
-        <p>© 2023 浅蓝色主题网页 | 点击"78 length"按钮跳转</p>
+        <p>© 2023 Yc_Shadust | All Rights Reserved</p>
     </div>
 </body>
 </html>

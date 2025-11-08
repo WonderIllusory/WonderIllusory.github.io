@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>78 Length Query Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .author-info {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2a5298;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #c5d4f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        input:focus {
+            border-color: #4a7dff;
+            box-shadow: 0 0 0 3px rgba(74, 125, 255, 0.2);
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(to right, #4a7dff, #2a5298);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(42, 82, 152, 0.3);
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(42, 82, 152, 0.4);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            background-color: #f0f5ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 2px solid #d0ddf7;
+            margin-bottom: 20px;
+        }
+        
+        .result-label {
+            color: #2a5298;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .result-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1e3c72;
+            word-break: break-all;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .evaluation-container {
+            background-color: #f8fbff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #d0ddf7;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .evaluation-text {
+            font-size: 18px;
+            color: #1e3c72;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .special-evaluation-orange {
+            color: #ff8c00;
+            font-weight: 600;
+        }
+        
+        .special-evaluation-red {
+            color: #ff4757;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .result-value {
+                font-size: 36px;
+            }
+            
+            .evaluation-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>78 Length Query Tool</h1>
+        <div class="author-info">Author: Yc_Shadust  QQ: 3610019833/3270707617</div>
+        
+        <div class="input-group">
+            <label for="username">Enter username (can contain any ASCII characters)</label>
+            <input type="text" id="username" placeholder="Example: Abc123!@#">
+        </div>
+        
+        <button class="calculate-btn" id="calculate-btn">Calculate 78 Length</button>
+        
+        <div class="result-container">
+            <div class="result-label">78 Length</div>
+            <div class="result-value" id="result-value">-</div>
+        </div>
+        
+        <div class="evaluation-container">
+            <div class="evaluation-text" id="evaluation-text">Please enter username and click calculate</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameInput = document.getElementById('username');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultValue = document.getElementById('result-value');
+            const evaluationText = document.getElementById('evaluation-text');
+            
+            // Calculate button click event
+            calculateBtn.addEventListener('click', function() {
+                const username = usernameInput.value.trim();
+                
+                // Validate input
+                if (username === '') {
+                    resultValue.textContent = '-';
+                    evaluationText.textContent = 'Please enter username';
+                    evaluationText.className = 'evaluation-text';
+                    return;
+                }
+                
+                // Check for special usernames
+                const lowerUsername = username.toLowerCase();
+                let specialEvaluation = '';
+                let specialUnit = 'cm';
+                
+                // Special username check
+                if (lowerUsername === 'wyc') {
+                    resultValue.textContent = '-';
+                    evaluationText.textContent = 'Author authority cannot be violated! You are not worthy of knowing his 78 length.';
+                    evaluationText.className = 'evaluation-text special-evaluation-red';
+                    return;
+                }
+                
+                if (['wxc', 'ceq', 'yyw'].includes(lowerUsername)) {
+                    specialEvaluation = 'Looks like a rhythm game master.';
+                    evaluationText.className = 'evaluation-text special-evaluation-orange';
+                }
+                
+                // SGWY special treatment
+                if (lowerUsername === 'sgwy') {
+                    resultValue.textContent = '78 km';
+                    evaluationText.textContent = 'So long.';
+                    evaluationText.className = 'evaluation-text special-evaluation-orange';
+                    return;
+                }
+                
+                // Calculate ASCII sums for different character types
+                let m = 0; // Sum of uppercase ASCII codes
+                let n = 0; // Sum of lowercase ASCII codes
+                let t = 0; // Sum of non-letter ASCII codes
+                
+                for (let i = 0; i < username.length; i++) {
+                    const charCode = username.charCodeAt(i);
+                    
+                    if (charCode >= 65 && charCode <= 90) {
+                        // Uppercase letters
+                        m += charCode;
+                    } else if (charCode >= 97 && charCode <= 122) {
+                        // Lowercase letters
+                        n += charCode;
+                    } else {
+                        // Non-letter characters
+                        t += charCode;
+                    }
+                }
+                
+                // Apply formula calculation
+                let p = (m * 78 / 91) - (n * 91 / 78) - (13 * t);
+                
+                // If p is out of range, keep dividing by 2 until within range
+                while (p > 200 || p < -100) {
+                    p = p / 2;
+                }
+                
+                // Keep one decimal place
+                p = Math.round(p * 10) / 10;
+                
+                // Display result
+                resultValue.textContent = p + ' ' + specialUnit;
+                
+                // Display evaluation
+                if (specialEvaluation) {
+                    evaluationText.textContent = specialEvaluation;
+                } else {
+                    let evaluation = '';
+                    
+                    if (p > 100) {
+                        evaluation = "Wow, what kind of 78 is this long?! So strong!";
+                    } else if (p > 20) {
+                        evaluation = "Oh... oh... so long... ah... hiss~";
+                    } else if (p > 10) {
+                        evaluation = "Is this your 78? How strong is it!?";
+                    } else if (p > 5) {
+                        evaluation = "How is this 78, it's too small.";
+                    } else if (p > 0) {
+                        evaluation = "78 is almost invisible, quickly find something to dig it out.";
+                    } else if (p > -20) {
+                        evaluation = "Your 7 8 is gone.";
+                    } else {
+                        evaluation = "You have theorized";
+                    }
+                    
+                    evaluationText.textContent = evaluation;
+                    evaluationText.className = 'evaluation-text';
+                }
+            });
+            
+            // Press Enter to trigger calculation
+            usernameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    calculateBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yc_Shadust</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a192f;
+            color: #e6f1ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #64ffda, #4dabf7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px 0 80px;
+        }
+        
+        .btn {
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(100, 255, 218, 0.05);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-icon {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover .btn-icon {
+            transform: scale(1.1) translateY(-5px);
+        }
+        
+        .btn-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .btn-description {
+            font-size: 1.1rem;
+            color: #a8b2d1;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.5;
+        }
+        
+        .btn-posts {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%);
+            border: 2px solid #64ffda;
+        }
+        
+        .btn-posts:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(100, 255, 218, 0.2);
+        }
+        
+        .btn-scores {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%);
+            border: 2px solid #4dabf7;
+        }
+        
+        .btn-scores:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(77, 171, 247, 0.2);
+        }
+        
+        .btn-about {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%);
+            border: 2px solid #ff6b9d;
+        }
+        
+        .btn-about:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.2);
+        }
+        
+        .posts-icon {
+            color: #64ffda;
+        }
+        
+        .scores-icon {
+            color: #4dabf7;
+        }
+        
+        .about-icon {
+            color: #ff6b9d;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #0a0f1c;
+            border-top: 1px solid #1a3a5f;
+            margin-top: auto;
+        }
+        
+        .copyright {
+            color: #8892b0;
+            font-size: 1rem;
+        }
+        
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 25, 47, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .loading.active {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(100, 255, 218, 0.3);
+            border-top-color: #64ffda;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            color: #64ffda;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 320px;
+                height: 220px;
+            }
+            
+            .btn-icon {
+                font-size: 3.5rem;
+            }
+            
+            .btn-title {
+                font-size: 2.2rem;
+            }
+            
+            .logo {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading...</div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo">Yc_Shadust</h1>
+        </header>
+        
+        <main>
+            <div class="buttons-container">
+                <!-- Posts按钮 - 点击跳转到Posts.html -->
+                <a href="Posts.html" class="btn btn-posts" id="postsBtn">
+                    <div class="btn-icon posts-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="btn-title">Posts</div>
+                    <div class="btn-description"></div>
+                </a>
+                
+                <a href="#" class="btn btn-scores" id="scoresBtn">
+                    <div class="btn-icon scores-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="btn-title">Scores</div>
+                    <div class="btn-description"></div>
+                </a>
+                
+                <a href="#" class="btn btn-about" id="aboutBtn">
+                    <div class="btn-icon about-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="btn-title">About</div>
+                    <div class="btn-description"></div>
+                </a>
+            </div>
+        </main>
+    </div>
+    
+    <footer>
+        <div class="copyright">
+            © 2024-2026 Yc_Shadust
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loading = document.getElementById('loading');
+            const postsBtn = document.getElementById('postsBtn');
+            const scoresBtn = document.getElementById('scoresBtn');
+            const aboutBtn = document.getElementById('aboutBtn');
+            
+            // Posts按钮 - 直接跳转到Posts.html
+            postsBtn.addEventListener('click', function(e) {
+                loading.classList.add('active');
+                loading.querySelector('.loading-text').textContent = 'Going to Posts...';
+            });
+            
+            // Scores按钮功能
+            scoresBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                loading.classList.add('active');
+                loading.querySelector('.loading-text').textContent = 'Loading Scores...';
+                
+                setTimeout(() => {
+                    document.body.innerHTML = `
+                        <div class="container">
+                            <header>
+                                <h1 class="logo">Yc_Shadust</h1>
+                            </header>
+                            <main style="padding: 40px 0;">
+                                <div style="background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%); 
+                                        border-radius: 15px; 
+                                        padding: 40px; 
+                                        border: 2px solid #4dabf7;
+                                        max-width: 800px;
+                                        margin: 0 auto;
+                                        text-align: center;">
+                                    <h2 style="color: #4dabf7; margin-bottom: 30px; font-size: 2.5rem;">Coming Soon !</h2>
+                                    <div style="margin-top: 30px;">
+                                        <a href="#" id="backBtn" style="display: inline-block; padding: 12px 30px; 
+                                            background: linear-gradient(90deg, #64ffda, #4dabf7); 
+                                            color: #0a192f; text-decoration: none; border-radius: 8px; 
+                                            font-weight: bold; font-size: 1.1rem;">
+                                            Back to Home
+                                        </a>
+                                    </div>
+                                </div>
+                            </main>
+                            <footer>
+                                <div class="copyright">
+                                    © 2024-2026 Yc_Shadust
+                                </div>
+                            </footer>
+                        </div>
+                    `;
+                    
+                    document.getElementById('backBtn').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        location.reload();
+                    });
+                }, 500);
+            });
+            
+            // About按钮功能
+            aboutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                loading.classList.add('active');
+                loading.querySelector('.loading-text').textContent = 'Loading About...';
+                
+                setTimeout(() => {
+                    document.body.innerHTML = `
+                        <div class="container">
+                            <header>
+                                <h1 class="logo">Yc_Shadust</h1>
+                            </header>
+                            <main style="padding: 40px 0;">
+                                <div style="background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%); 
+                                        border-radius: 15px; 
+                                        padding: 40px; 
+                                        border: 2px solid #ff6b9d;
+                                        max-width: 800px;
+                                        margin: 0 auto;">
+                                    <div style="color: #ff6b9d; text-align: center; font-size: 2rem; margin-bottom: 30px;">
+                                        Yc_Shadust
+                                    </div>
+                                    <div style="color: #a8b2d1; text-align: center; font-size: 1.2rem; line-height: 2;">
+                                        QQ: 3610019833<br>
+                                        bilibili: Yc_Shadust
+                                    </div>
+                                    <div style="text-align: center; margin-top: 40px;">
+                                        <a href="#" id="backBtnAbout" style="display: inline-block; padding: 12px 30px; 
+                                            background: linear-gradient(90deg, #64ffda, #4dabf7); 
+                                            color: #0a192f; text-decoration: none; border-radius: 8px; 
+                                            font-weight: bold; font-size: 1.1rem;">
+                                            Back to Home
+                                        </a>
+                                    </div>
+                                </div>
+                            </main>
+                            <footer>
+                                <div class="copyright">
+                                    © 2024-2026 Yc_Shadust
+                                </div>
+                            </footer>
+                        </div>
+                    `;
+                    
+                    document.getElementById('backBtnAbout').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        location.reload();
+                    });
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

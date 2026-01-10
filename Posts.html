@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yc_Shadust - Articles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a192f;
+            color: #e6f1ff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #1a3a5f;
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #64ffda, #4dabf7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: #8892b0;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+        
+        .nav-link:hover {
+            color: #64ffda;
+            background-color: rgba(100, 255, 218, 0.05);
+        }
+        
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .username {
+            color: #64ffda;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 40px 0;
+        }
+        
+        .article-card {
+            flex: 1;
+            min-width: 300px;
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #64ffda;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .article-title {
+            font-size: 1.8rem;
+            color: #64ffda;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+        }
+        
+        .article-content {
+            color: #a8b2d1;
+            line-height: 1.8;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .article-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .article-content::-webkit-scrollbar-track {
+            background: rgba(100, 255, 218, 0.05);
+            border-radius: 4px;
+        }
+        
+        .article-content::-webkit-scrollbar-thumb {
+            background: #64ffda;
+            border-radius: 4px;
+        }
+        
+        .article-number {
+            display: inline-block;
+            background: #64ffda;
+            color: #0a192f;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 25, 47, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a2540 100%);
+            border-radius: 15px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #64ffda;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .modal-title {
+            color: #64ffda;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            color: #a8b2d1;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            background-color: rgba(100, 255, 218, 0.05);
+            border: 1px solid #64ffda;
+            border-radius: 8px;
+            color: #e6f1ff;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4dabf7;
+        }
+        
+        .form-input.error {
+            border-color: #ff6b9d;
+        }
+        
+        .error-message {
+            color: #ff6b9d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.active {
+            display: block;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #64ffda, #4dabf7);
+            color: #0a192f;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #64ffda;
+            border: 1px solid #64ffda;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+        
+        .toggle-form {
+            text-align: center;
+            margin-top: 25px;
+            color: #8892b0;
+        }
+        
+        .toggle-link {
+            color: #64ffda;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+        
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logout-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: 1px solid #ff6b9d;
+            color: #ff6b9d;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 107, 157, 0.1);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #1a3a5f;
+            margin-top: 40px;
+        }
+        
+        .copyright {
+            color: #8892b0;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 1200px) {
+            .article-card {
+                min-width: 45%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .article-card {
+                min-width: 100%;
+            }
+            
+            .form-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 25, 47, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .loading.active {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(100, 255, 218, 0.3);
+            border-top-color: #64ffda;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            color: #64ffda;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+    
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modalTitle">Login</h2>
+            
+            <form id="loginForm" style="display: block;">
+                <div class="form-group">
+                    <label class="form-label" for="loginUsername">Account ID</label>
+                    <input type="text" id="loginUsername" class="form-input" placeholder="Enter your account ID">
+                    <div class="error-message" id="loginUsernameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
+                    <div class="error-message" id="loginPasswordError"></div>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary" id="closeModal">Cancel</button>
+                </div>
+                
+                <div class="toggle-form">
+                    No account? <span class="toggle-link" id="showRegisterForm">Register</span>
+                </div>
+            </form>
+            
+            <form id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label" for="registerUsername">Username</label>
+                    <input type="text" id="registerUsername" class="form-input" placeholder="Enter username">
+                    <div class="error-message" id="registerUsernameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" class="form-input" placeholder="Must contain letters and numbers">
+                    <div class="error-message" id="registerPasswordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="Re-enter password">
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="button" class="btn btn-secondary" id="closeRegisterModal">Cancel</button>
+                </div>
+                
+                <div class="toggle-form">
+                    Already have an account? <span class="toggle-link" id="showLoginForm">Login</span>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">Yc_Shadust</div>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Articles</a>
+                <a href="#" class="nav-link">About</a>
+            </div>
+            
+            <div class="user-section" id="userSection">
+                <button class="btn btn-primary" id="loginBtn">Login/Register</button>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span class="username" id="displayUsername"></span>
+                    <button class="logout-btn" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="main-content" id="articlesContainer">
+        </main>
+        
+        <footer>
+            <div class="copyright">
+                © 2024-2026 Yc_Shadust
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        let currentUser = null;
+        let userData = [];
+        let articleCount = 0;
+        
+        const loading = document.getElementById('loading');
+        const loadingText = document.getElementById('loadingText');
+        const authModal = document.getElementById('authModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const closeModal = document.getElementById('closeModal');
+        const closeRegisterModal = document.getElementById('closeRegisterModal');
+        const showRegisterForm = document.getElementById('showRegisterForm');
+        const showLoginForm = document.getElementById('showLoginForm');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const userSection = document.getElementById('userSection');
+        const userInfo = document.getElementById('userInfo');
+        const displayUsername = document.getElementById('displayUsername');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const articlesContainer = document.getElementById('articlesContainer');
+        const modalTitle = document.getElementById('modalTitle');
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadArticles();
+            checkLoggedInUser();
+            
+            loginBtn.addEventListener('click', showAuthModal);
+            closeModal.addEventListener('click', hideAuthModal);
+            closeRegisterModal.addEventListener('click', hideAuthModal);
+            showRegisterForm.addEventListener('click', showRegister);
+            showLoginForm.addEventListener('click', showLogin);
+            logoutBtn.addEventListener('click', logout);
+            
+            loginForm.addEventListener('submit', handleLogin);
+            registerForm.addEventListener('submit', handleRegister);
+            
+            authModal.addEventListener('click', function(e) {
+                if (e.target === authModal) {
+                    hideAuthModal();
+                }
+            });
+        });
+        
+        async function loadUserData() {
+            try {
+                const response = await fetch('userinfo.txt');
+                if (response.ok) {
+                    const text = await response.text();
+                    if (text.trim()) {
+                        const lines = text.trim().split('\n');
+                        userData = lines.map(line => {
+                            const [id, username, password] = line.split(',');
+                            return { id, username, password };
+                        });
+                    } else {
+                        userData = [];
+                    }
+                } else {
+                    userData = [];
+                }
+            } catch (error) {
+                userData = [];
+            }
+        }
+        
+        async function saveUserData() {
+            const content = userData.map(user => 
+                `${user.id},${user.username},${user.password}`
+            ).join('\n');
+            
+            localStorage.setItem('userinfo', content);
+            return true;
+        }
+        
+        async function loadArticles() {
+            showLoading('Loading articles...');
+            
+            try {
+                articlesContainer.innerHTML = '';
+                articleCount = 0;
+                
+                for (let i = 1; i <= 10; i++) {
+                    try {
+                        const response = await fetch(`${i}.txt`);
+                        if (response.ok) {
+                            const content = await response.text();
+                            createArticleCard(i, content);
+                            articleCount++;
+                        } else {
+                            if (i === 1) {
+                                articlesContainer.innerHTML = `
+                                    <div class="article-card" style="width: 100%; text-align: center;">
+                                        <h2 class="article-title">No Articles</h2>
+                                        <div class="article-content">
+                                            <p>No articles available.</p>
+                                            <p>Ensure 1.txt, 2.txt, 3.txt files exist in the directory.</p>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            break;
+                        }
+                    } catch (error) {
+                        break;
+                    }
+                }
+                
+                if (articleCount === 0) {
+                    articlesContainer.innerHTML = `
+                        <div class="article-card" style="width: 100%; text-align: center;">
+                            <h2 class="article-title">No Articles</h2>
+                            <div class="article-content">
+                                <p>No articles available.</p>
+                                <p>Ensure 1.txt, 2.txt, 3.txt files exist in the directory.</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                articlesContainer.innerHTML = `
+                    <div class="article-card" style="width: 100%; text-align: center;">
+                        <h2 class="article-title">Load Failed</h2>
+                        <div class="article-content">
+                            <p>Error loading articles.</p>
+                        </div>
+                    </div>
+                `;
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        function createArticleCard(number, content) {
+            const articleCard = document.createElement('div');
+            articleCard.className = 'article-card';
+            
+            articleCard.innerHTML = `
+                <h2 class="article-title">
+                    <span class="article-number">${number}</span>
+                    Article ${number}
+                </h2>
+                <div class="article-content">${formatArticleContent(content)}</div>
+            `;
+            
+            articlesContainer.appendChild(articleCard);
+        }
+        
+        function formatArticleContent(content) {
+            return content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>')
+                .replace(/\r/g, '');
+        }
+        
+        function showLoading(text = 'Loading...') {
+            loadingText.textContent = text;
+            loading.classList.add('active');
+        }
+        
+        function hideLoading() {
+            loading.classList.remove('active');
+        }
+        
+        function checkLoggedInUser() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUserUI();
+            }
+        }
+        
+        function showAuthModal() {
+            authModal.classList.add('active');
+            showLogin();
+        }
+        
+        function hideAuthModal() {
+            authModal.classList.remove('active');
+            resetForms();
+        }
+        
+        function showLogin() {
+            modalTitle.textContent = 'Login';
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            resetForms();
+        }
+        
+        function showRegister() {
+            modalTitle.textContent = 'Register';
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            resetForms();
+        }
+        
+        function resetForms() {
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.textContent = '';
+                el.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.form-input').forEach(el => {
+                el.classList.remove('error');
+            });
+        }
+        
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            let isValid = true;
+            
+            if (!username) {
+                showError('loginUsername', 'Enter account ID');
+                isValid = false;
+            } else {
+                hideError('loginUsername');
+            }
+            
+            if (!password) {
+                showError('loginPassword', 'Enter password');
+                isValid = false;
+            } else {
+                hideError('loginPassword');
+            }
+            
+            if (!isValid) return;
+            
+            await loadUserData();
+            
+            const user = userData.find(u => 
+                u.id === username && u.password === password
+            );
+            
+            if (user) {
+                currentUser = {
+                    id: user.id,
+                    username: user.username
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserUI();
+                hideAuthModal();
+                alert('Login successful!');
+            } else {
+                showError('loginPassword', 'Invalid account or password');
+            }
+        }
+        
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            
+            let isValid = true;
+            
+            if (!username) {
+                showError('registerUsername', 'Enter username');
+                isValid = false;
+            } else if (username.length < 3) {
+                showError('registerUsername', 'Username minimum 3 characters');
+                isValid = false;
+            } else {
+                hideError('registerUsername');
+            }
+            
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+            
+            if (!password) {
+                showError('registerPassword', 'Enter password');
+                isValid = false;
+            } else if (password.length < 6) {
+                showError('registerPassword', 'Password minimum 6 characters');
+                isValid = false;
+            } else if (!passwordRegex.test(password)) {
+                showError('registerPassword', 'Password must contain letters and numbers');
+                isValid = false;
+            } else {
+                hideError('registerPassword');
+            }
+            
+            if (!confirmPassword) {
+                showError('confirmPassword', 'Confirm password');
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                showError('confirmPassword', 'Passwords do not match');
+                isValid = false;
+            } else {
+                hideError('confirmPassword');
+            }
+            
+            if (!isValid) return;
+            
+            await loadUserData();
+            
+            const usernameExists = userData.some(u => u.username === username);
+            if (usernameExists) {
+                showError('registerUsername', 'Username already exists');
+                return;
+            }
+            
+            const newId = (userData.length + 1).toString();
+            
+            userData.push({
+                id: newId,
+                username: username,
+                password: password
+            });
+            
+            const saved = await saveUserData();
+            
+            if (saved) {
+                currentUser = {
+                    id: newId,
+                    username: username
+                };
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserUI();
+                hideAuthModal();
+                alert('Registration successful! Your account ID: ' + newId);
+            } else {
+                alert('Registration failed');
+            }
+        }
+        
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(fieldId + 'Error');
+            const inputElement = document.getElementById(fieldId);
+            
+            errorElement.textContent = message;
+            errorElement.classList.add('active');
+            inputElement.classList.add('error');
+        }
+        
+        function hideError(fieldId) {
+            const errorElement = document.getElementById(fieldId + 'Error');
+            const inputElement = document.getElementById(fieldId);
+            
+            errorElement.textContent = '';
+            errorElement.classList.remove('active');
+            inputElement.classList.remove('error');
+        }
+        
+        function updateUserUI() {
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                displayUsername.textContent = currentUser.username;
+            } else {
+                loginBtn.style.display = 'block';
+                userInfo.style.display = 'none';
+            }
+        }
+        
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateUserUI();
+            alert('Logged out');
+        }
+    </script>
+</body>
+</html>
